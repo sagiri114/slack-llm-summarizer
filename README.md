@@ -58,7 +58,7 @@
 ### `/summary 24h`
 
 ```text
-*AI Summary* `range:24h` `provider:deepseek`
+AI Summary* `range:24h` `provider:deepseek`
 
 *重要更新*
 • 周五前需要完成 demo
