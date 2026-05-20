@@ -1,3 +1,8 @@
+<!-- README.md 顶部 -->
+[日本語](README.ja.md) | 中文
+
+<!-- README.ja.md 顶部 -->
+[中文](README.md) | 日本語
 # Slack AI Agent · slack-llm-summarizer
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
