@@ -1,0 +1,28 @@
+[project]
+name = "slack-llm-summarizer"
+version = "0.1.0"
+description = "Slack AI Agent MVP with summary, ask, and todo commands."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "aiohttp>=3.9.0",
+  "httpx>=0.27.0",
+  "python-dotenv>=1.0.1",
+  "slack-bolt>=1.21.0",
+  "slack-sdk>=3.33.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+]
+
+[project.scripts]
+slack-llm-summarizer = "slack_llm_summarizer.app:main"
+slack-summary-dry-run = "slack_llm_summarizer.cli:main"
+slack-llm-check = "slack_llm_summarizer.check_provider:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+

@@ -1,0 +1,4 @@
+[console_scripts]
+slack-llm-check = slack_llm_summarizer.check_provider:main
+slack-llm-summarizer = slack_llm_summarizer.app:main
+slack-summary-dry-run = slack_llm_summarizer.cli:main
