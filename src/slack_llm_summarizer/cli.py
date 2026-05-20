@@ -73,6 +73,7 @@ async def async_main() -> None:
             context,
             provider=provider.name,
             hours=args.hours,
+            language=settings.summary_language,
         )
     )
 

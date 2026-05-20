@@ -135,13 +135,14 @@ class AgentCommands:
                     context,
                     provider=provider.name,
                     hours=options.hours,
+                    language=self.settings.summary_language,
                 )
             )
         except (ConfigurationError, UnknownProviderError) as exc:
-            await respond(format_error_for_slack(exc))
+            await respond(format_error_for_slack(exc, language=self.settings.summary_language))
         except Exception as exc:
             logger.exception("Failed to handle /summary")
-            await respond(format_error_for_slack(exc))
+            await respond(format_error_for_slack(exc, language=self.settings.summary_language))
 
     async def handle_ask(
         self,
@@ -196,12 +197,18 @@ class AgentCommands:
                 parse_ask_answer(data),
                 context.source_ids,
             )
-            await respond(format_ask_for_slack(validated, context))
+            await respond(
+                format_ask_for_slack(
+                    validated,
+                    context,
+                    language=self.settings.summary_language,
+                )
+            )
         except (ConfigurationError, UnknownProviderError) as exc:
-            await respond(format_error_for_slack(exc))
+            await respond(format_error_for_slack(exc, language=self.settings.summary_language))
         except Exception as exc:
             logger.exception("Failed to handle /ask")
-            await respond(format_error_for_slack(exc))
+            await respond(format_error_for_slack(exc, language=self.settings.summary_language))
 
     async def handle_todo(
         self,
@@ -245,9 +252,15 @@ class AgentCommands:
                 parse_todo_response(data),
                 context.source_ids,
             )
-            await respond(format_todo_for_slack(validated, context))
+            await respond(
+                format_todo_for_slack(
+                    validated,
+                    context,
+                    language=self.settings.summary_language,
+                )
+            )
         except (ConfigurationError, UnknownProviderError) as exc:
-            await respond(format_error_for_slack(exc))
+            await respond(format_error_for_slack(exc, language=self.settings.summary_language))
         except Exception as exc:
             logger.exception("Failed to handle /todo")
-            await respond(format_error_for_slack(exc))
+            await respond(format_error_for_slack(exc, language=self.settings.summary_language))

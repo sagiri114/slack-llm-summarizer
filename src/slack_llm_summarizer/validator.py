@@ -26,6 +26,9 @@ def validate_summary_item(item: SummaryItem, allowed: set[str]) -> SummaryItem:
         category=item.category,
         confidence=_downgrade_confidence(item.confidence, has_valid_sources=bool(valid)),  # type: ignore[arg-type]
         sources=valid,
+        details=item.details,
+        impact=item.impact,
+        next_steps=item.next_steps,
     )
 
 
@@ -46,6 +49,9 @@ def validate_summary_response(
                         category=cleaned.category,
                         confidence="unknown",
                         sources=[],
+                        details=cleaned.details,
+                        impact=cleaned.impact,
+                        next_steps=cleaned.next_steps,
                     )
                 )
         return validated
@@ -68,6 +74,9 @@ def validate_todo_item(item: TodoItem, allowed: set[str]) -> TodoItem:
         status=item.status if valid else "unclear",
         confidence=_downgrade_confidence(item.confidence, has_valid_sources=bool(valid)),  # type: ignore[arg-type]
         sources=valid,
+        details=item.details,
+        acceptance_criteria=item.acceptance_criteria,
+        blockers=item.blockers,
     )
 
 
@@ -86,6 +95,9 @@ def validate_todo_response(response: TodoResponse, allowed: set[str]) -> TodoRes
                     status="unclear",
                     confidence="unknown",
                     sources=[],
+                    details=cleaned.details,
+                    acceptance_criteria=cleaned.acceptance_criteria,
+                    blockers=cleaned.blockers,
                 )
             )
     return TodoResponse(todos=todos)
@@ -106,4 +118,7 @@ def validate_ask_answer(answer: AskAnswer, allowed: set[str]) -> AskAnswer:
         confidence=_downgrade_confidence(answer.confidence, has_valid_sources=bool(valid)),  # type: ignore[arg-type]
         sources=valid,
         unknowns=unknowns,
+        key_findings=answer.key_findings,
+        reasoning=answer.reasoning,
+        next_steps=answer.next_steps,
     )

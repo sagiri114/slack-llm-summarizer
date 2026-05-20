@@ -20,6 +20,9 @@ class SummaryItem:
     category: SummaryCategory
     confidence: Confidence
     sources: list[str] = field(default_factory=list)
+    details: list[str] = field(default_factory=list)
+    impact: str | None = None
+    next_steps: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -30,6 +33,9 @@ class TodoItem:
     status: TodoStatus
     confidence: Confidence
     sources: list[str] = field(default_factory=list)
+    details: list[str] = field(default_factory=list)
+    acceptance_criteria: list[str] = field(default_factory=list)
+    blockers: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -38,6 +44,9 @@ class AskAnswer:
     confidence: Confidence
     sources: list[str] = field(default_factory=list)
     unknowns: list[str] = field(default_factory=list)
+    key_findings: list[str] = field(default_factory=list)
+    reasoning: list[str] = field(default_factory=list)
+    next_steps: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -81,6 +90,16 @@ def _category(value: Any) -> SummaryCategory | None:
     return None
 
 
+def _string_list(value: Any) -> list[str]:
+    if value is None:
+        return []
+    if isinstance(value, str):
+        value = [value]
+    if not isinstance(value, list):
+        return []
+    return [str(item).strip() for item in value if str(item).strip()]
+
+
 def parse_summary_item(raw: dict[str, Any]) -> SummaryItem | None:
     category = _category(raw.get("category"))
     claim = str(raw.get("claim", "")).strip()
@@ -89,11 +108,15 @@ def parse_summary_item(raw: dict[str, Any]) -> SummaryItem | None:
     sources = raw.get("sources") or []
     if not isinstance(sources, list):
         sources = []
+    impact = raw.get("impact")
     return SummaryItem(
         claim=claim,
         category=category,
         confidence=_confidence(raw.get("confidence")),
         sources=[str(s) for s in sources],
+        details=_string_list(raw.get("details")),
+        impact=str(impact).strip() if impact else None,
+        next_steps=_string_list(raw.get("next_steps")),
     )
 
 
@@ -128,12 +151,16 @@ def parse_summary_response(data: dict[str, Any]) -> SummaryResponse:
             sources = raw.get("sources") or []
             if not isinstance(sources, list):
                 sources = []
+            impact = raw.get("impact")
             getattr(response, field_name).append(
                 SummaryItem(
                     claim=claim,
                     category=category_key,
                     confidence=_confidence(raw.get("confidence")),
                     sources=[str(s) for s in sources],
+                    details=_string_list(raw.get("details")),
+                    impact=str(impact).strip() if impact else None,
+                    next_steps=_string_list(raw.get("next_steps")),
                 )
             )
     return response
@@ -155,6 +182,9 @@ def parse_todo_item(raw: dict[str, Any]) -> TodoItem | None:
         status=_todo_status(raw.get("status")),
         confidence=_confidence(raw.get("confidence")),
         sources=[str(s) for s in sources],
+        details=_string_list(raw.get("details")),
+        acceptance_criteria=_string_list(raw.get("acceptance_criteria")),
+        blockers=_string_list(raw.get("blockers")),
     )
 
 
@@ -185,4 +215,7 @@ def parse_ask_answer(data: dict[str, Any]) -> AskAnswer:
         confidence=_confidence(data.get("confidence")),
         sources=[str(s) for s in sources],
         unknowns=[str(u) for u in unknowns],
+        key_findings=_string_list(data.get("key_findings")),
+        reasoning=_string_list(data.get("reasoning")),
+        next_steps=_string_list(data.get("next_steps")),
     )
