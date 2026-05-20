@@ -140,7 +140,7 @@ flowchart LR
 ### 1. Clone 与安装
 
 ```powershell
-git clone https://github.com/<你的用户名>/slack-llm-summarizer.git
+git clone https://github.com/sagiri114/slack-llm-summarizer.git
 cd slack-llm-summarizer
 
 python -m venv .venv
