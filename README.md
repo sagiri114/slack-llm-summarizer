@@ -227,7 +227,7 @@ slack-llm-summarizer
 
 ## 环境变量完整说明
 
-参见 [.env.example](.env.example)。**切勿**将真实 token 提交到 Git。
+参见 [.env.example](.env.example)。
 
 | 变量 | 必填 | 默认值 | 说明 |
 |------|------|--------|------|
@@ -467,8 +467,3 @@ pip install -e .
 - [DeepSeek API](https://api-docs.deepseek.com/)
 - [OpenAI Chat Completions](https://platform.openai.com/docs/api-reference/chat/create)
 
----
-
-## License
-
-MIT（如仓库未包含 LICENSE 文件，可自行添加。）
